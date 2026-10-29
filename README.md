@@ -8,8 +8,9 @@ Projet de groupe du cours de développement mobile Android (M2 Expert en dévelo
 
 | Besoin | Description | État |
 |---|---|---|
-| B1 | Application nommée « MyRecipes » | à faire |
-| B2, B3 | Écran « Categories » : liste des catégories avec leur vignette | à faire |
+| B1 | Application nommée « MyRecipes » | fait (v0.1) |
+| B2 | Écran « Categories » : liste des catégories avec leur vignette | fait (v0.1) |
+| B3 | Appui sur une catégorie : ouverture de ses recettes | à faire |
 | B4, B5 | Écran « \<CategoryName\> Recipes » : recettes d'une catégorie | à faire |
 | B6, B7 | Détail d'une recette avec son nutri-score | à faire |
 | B8 à B10 | Écran « Favorites », enregistré dans une base locale | à faire |
