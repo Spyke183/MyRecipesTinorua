@@ -1,8 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.MyRecipesTinorua" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.MyRecipesTinorua" parent="Theme.Material3.DayNight">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="actionBarStyle">@style/Widget.MyRecipesTinorua.ActionBar</item>
+    </style>
+
+    <style name="Widget.MyRecipesTinorua.ActionBar" parent="Widget.Material3.ActionBar.Solid">
+        <item name="background">@color/action_bar_background</item>
+        <item name="titleTextStyle">@style/TextAppearance.MyRecipesTinorua.ActionBar.Title</item>
+    </style>
+
+    <style name="TextAppearance.MyRecipesTinorua.ActionBar.Title" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="Theme.MyRecipesTinorua" parent="Base.Theme.MyRecipesTinorua" />
