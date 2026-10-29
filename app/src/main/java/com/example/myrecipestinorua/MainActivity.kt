@@ -47,15 +47,17 @@ class MainActivity : AppCompatActivity() {
     private fun loadCategories() {
         val api = RetrofitClient.create(IMealDbApi::class.java)
         lifecycleScope.launch {
+            binding.loading = true
             try {
                 val response = api.getCategories()
+                categories.addAll(response.categories)
+                categoryAdapter.notifyDataSetChanged()
                 Log.d(LOGTAG, "Categories: ${response.categories.size}")
-                for (category in response.categories) {
-                    Log.d(LOGTAG, category.strCategory)
-                }
             } catch (e: Exception) {
                 if (e is CancellationException) throw e
                 Log.e(LOGTAG, "Unable to load categories", e)
+            } finally {
+                binding.loading = false
             }
         }
     }
