@@ -52,15 +52,17 @@ class RecipesActivity : AppCompatActivity() {
     private fun loadRecipes(categoryName: String) {
         val api = RetrofitClient.create(IMealDbApi::class.java)
         lifecycleScope.launch {
+            binding.loading = true
             try {
                 val response = api.getRecipesByCategory(categoryName)
+                recipes.addAll(response.meals)
+                recipeAdapter.notifyDataSetChanged()
                 Log.d(LOGTAG, "Recipes: ${response.meals.size}")
-                for (recipe in response.meals) {
-                    Log.d(LOGTAG, recipe.strMeal)
-                }
             } catch (e: Exception) {
                 if (e is CancellationException) throw e
                 Log.e(LOGTAG, "Unable to load recipes", e)
+            } finally {
+                binding.loading = false
             }
         }
     }
