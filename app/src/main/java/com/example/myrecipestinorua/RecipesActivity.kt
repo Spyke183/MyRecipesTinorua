@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
+const val CATEGORY_NAME_EXTRA_KEY = "category_name_extra_key"
+
 class RecipesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,5 +18,9 @@ class RecipesActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        // Retrieve activity extras
+        val categoryName = intent.extras?.getString(CATEGORY_NAME_EXTRA_KEY) ?: ""
+        setTitle(getString(R.string.recipes_activity_title, categoryName))
     }
 }
