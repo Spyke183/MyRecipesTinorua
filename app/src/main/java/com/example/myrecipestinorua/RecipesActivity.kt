@@ -1,5 +1,6 @@
 package com.example.myrecipestinorua
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -18,7 +19,7 @@ import kotlinx.coroutines.launch
 
 const val CATEGORY_NAME_EXTRA_KEY = "category_name_extra_key"
 
-class RecipesActivity : AppCompatActivity() {
+class RecipesActivity : AppCompatActivity(), OnRecipeItemClickedListener {
     private val LOGTAG = RecipesActivity::class.simpleName
 
     private lateinit var binding: ActivityRecipesBinding
@@ -44,6 +45,7 @@ class RecipesActivity : AppCompatActivity() {
         binding.recipesRv.setHasFixedSize(true)
         binding.recipesRv.layoutManager = LinearLayoutManager(this)
         recipeAdapter = RecipeAdapter(recipes)
+        recipeAdapter.setRecipeItemClickedListener(this)
         binding.recipesRv.adapter = recipeAdapter
 
         loadRecipes(categoryName)
@@ -65,5 +67,15 @@ class RecipesActivity : AppCompatActivity() {
                 binding.loading = false
             }
         }
+    }
+
+    override fun onRecipeItemClicked(recipe: Recipe) {
+        Log.d(LOGTAG, "${recipe.strMeal} clicked !")
+        startActivity(
+            Intent(
+                this,
+                RecipeDetailActivity::class.java
+            ).putExtra(RECIPE_ID_EXTRA_KEY, recipe.idMeal)
+        )
     }
 }

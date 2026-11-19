@@ -29,6 +29,7 @@
         <activity
             android:name=".RecipeDetailActivity"
             android:exported="false"
+            android:label="@string/recipe_detail_activity_title"
             android:windowSoftInputMode="adjustResize" />
     </application>
 

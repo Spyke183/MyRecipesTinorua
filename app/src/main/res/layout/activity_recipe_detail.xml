@@ -7,4 +7,15 @@
     android:layout_height="match_parent"
     tools:context=".RecipeDetailActivity">
 
+    <TextView
+        android:id="@+id/recipe_id_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/recipe_name_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="recipe_id" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,8 @@ import com.example.myrecipestinorua.databinding.RecipeItemBinding
 
 class RecipeAdapter(private val recipes: ArrayList<Recipe>) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
 
+    private var onRecipeItemClickedListener: OnRecipeItemClickedListener? = null
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -24,10 +26,17 @@ class RecipeAdapter(private val recipes: ArrayList<Recipe>) : RecyclerView.Adapt
 
     override fun getItemCount(): Int = recipes.size
 
-    class RecipeViewHolder(private val binding: RecipeItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class RecipeViewHolder(private val binding: RecipeItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(recipe: Recipe) {
             binding.recipe = recipe
+            binding.recipeItemCl.setOnClickListener {
+                onRecipeItemClickedListener?.onRecipeItemClicked(recipe)
+            }
             binding.executePendingBindings()
         }
+    }
+
+    fun setRecipeItemClickedListener(listener: OnRecipeItemClickedListener) {
+        this.onRecipeItemClickedListener = listener
     }
 }
