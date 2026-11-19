@@ -23,9 +23,25 @@ class NutriScoreView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     var scoreMax: Float = DEFAULT_SCORE_MAX
+        set(value) {
+            field = value
+            invalidate()
+        }
     var scoreValue: Float = DEFAULT_SCORE_VALUE
+        set(value) {
+            field = value
+            invalidate()
+        }
     var scoreLabel: String = DEFAULT_SCORE_LABEL
+        set(value) {
+            field = value
+            invalidate()
+        }
     var scoreColor: Int = DEFAULT_SCORE_COLOR
+        set(value) {
+            field = value
+            invalidate()
+        }
 
     // created once, since onDraw() is called at each refresh
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
