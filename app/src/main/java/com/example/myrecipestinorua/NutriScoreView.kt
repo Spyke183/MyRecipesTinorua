@@ -3,9 +3,11 @@ package com.example.myrecipestinorua
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.withStyledAttributes
+import kotlin.math.abs
 
 // default values of the XML attributes
 private const val DEFAULT_SCORE_MAX = 100f
@@ -24,6 +26,13 @@ class NutriScoreView @JvmOverloads constructor(
     var scoreLabel: String = DEFAULT_SCORE_LABEL
     var scoreColor: Int = DEFAULT_SCORE_COLOR
 
+    // created once, since onDraw() is called at each refresh
+    private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    // stroke width of the frame
+    private val so = 4f
+    private val fontMetrics = paint.fontMetrics
+    private val textHeight = abs(fontMetrics.ascent + fontMetrics.descent)
+
     init {
         context.withStyledAttributes(attrs, R.styleable.NutriScoreView) {
             scoreMax = getFloat(R.styleable.NutriScoreView_scoreMax, DEFAULT_SCORE_MAX)
@@ -33,7 +42,40 @@ class NutriScoreView @JvmOverloads constructor(
         }
     }
 
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        val margin = 4 * so
+
+        // the bar takes the whole width, unless the parent gives no constraint
+        val desiredWidth = if (MeasureSpec.getMode(widthMeasureSpec) == MeasureSpec.UNSPECIFIED) {
+            paddingLeft + paddingRight + margin +
+                    paint.measureText(" $scoreLabel") + paint.measureText("100 % ")
+        } else {
+            MeasureSpec.getSize(widthMeasureSpec).toFloat()
+        }
+        // one line of text
+        val desiredHeight = paddingTop + paddingBottom + margin +
+                fontMetrics.descent - fontMetrics.ascent
+
+        setMeasuredDimension(
+            resolveSize(desiredWidth.toInt(), widthMeasureSpec),
+            resolveSize(desiredHeight.toInt(), heightMeasureSpec)
+        )
+    }
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+
+        // frame
+        paint.style = Paint.Style.STROKE
+        paint.strokeWidth = so * 1.5f
+        paint.color = Color.BLACK
+        canvas.drawRect(
+            paddingLeft + so,
+            paddingTop + so,
+            width - paddingRight - so,
+            height - paddingBottom - so,
+            paint
+        )
     }
 }
