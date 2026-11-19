@@ -6,12 +6,11 @@
     <com.example.myrecipestinorua.NutriScoreView
         style="@style/Widget.Theme.MyRecipesTinorua.NutriScoreView"
         android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:paddingLeft="20dp"
-        android:paddingBottom="40dp"
-        app:scoreColor="@android:color/holo_green_light"
+        android:layout_height="wrap_content"
+        android:padding="40dp"
+        app:scoreColor="@android:color/holo_green_dark"
         app:scoreLabel="TEST"
         app:scoreMax="100"
-        app:scoreValue="75" />
+        app:scoreValue="66" />
 
 </FrameLayout>

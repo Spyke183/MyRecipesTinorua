@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.withStyledAttributes
@@ -27,7 +28,10 @@ class NutriScoreView @JvmOverloads constructor(
     var scoreColor: Int = DEFAULT_SCORE_COLOR
 
     // created once, since onDraw() is called at each refresh
-    private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        textSize = context.resources.getDimension(R.dimen.nutri_score_view_label)
+        typeface = Typeface.create(null as String?, Typeface.BOLD)
+    }
     // stroke width of the frame
     private val so = 4f
     private val fontMetrics = paint.fontMetrics
@@ -66,6 +70,19 @@ class NutriScoreView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
+        val percent = if (scoreMax > 0) (scoreValue / scoreMax).coerceIn(0f, 1f) else 0f
+
+        // colored bar
+        paint.style = Paint.Style.FILL
+        paint.color = scoreColor
+        canvas.drawRect(
+            paddingLeft.toFloat(),
+            paddingTop.toFloat(),
+            paddingLeft + (width - paddingLeft - paddingRight) * percent,
+            height.toFloat() - paddingBottom,
+            paint
+        )
+
         // frame
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = so * 1.5f
@@ -77,5 +94,14 @@ class NutriScoreView @JvmOverloads constructor(
             height - paddingBottom - so,
             paint
         )
+
+        // label on the left, percentage on the right
+        val textY = (paddingTop + height - paddingBottom + textHeight) * 0.5f
+        paint.style = Paint.Style.FILL
+        paint.color = Color.DKGRAY
+        paint.textAlign = Paint.Align.LEFT
+        canvas.drawText(" $scoreLabel", paddingLeft.toFloat(), textY, paint)
+        paint.textAlign = Paint.Align.RIGHT
+        canvas.drawText("${(100 * percent).toInt()} % ", width - paddingRight.toFloat(), textY, paint)
     }
 }
