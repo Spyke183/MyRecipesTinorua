@@ -1,5 +1,6 @@
 package com.example.myrecipestinorua
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -16,7 +17,7 @@ import com.example.myrecipestinorua.databinding.ActivityMainBinding
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnCategoryItemClickedListener {
     private val LOGTAG = MainActivity::class.simpleName
 
     private lateinit var binding: ActivityMainBinding
@@ -39,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         binding.categoriesRv.setHasFixedSize(true)
         binding.categoriesRv.layoutManager = LinearLayoutManager(this)
         categoryAdapter = CategoryAdapter(categories)
+        categoryAdapter.setCategoryItemClickedListener(this)
         binding.categoriesRv.adapter = categoryAdapter
 
         loadCategories()
@@ -60,5 +62,15 @@ class MainActivity : AppCompatActivity() {
                 binding.loading = false
             }
         }
+    }
+
+    override fun onCategoryItemClicked(category: Category) {
+        Log.d(LOGTAG, "${category.strCategory} clicked !")
+        startActivity(
+            Intent(
+                this,
+                RecipesActivity::class.java
+            ).putExtra(CATEGORY_NAME_EXTRA_KEY, category.strCategory)
+        )
     }
 }

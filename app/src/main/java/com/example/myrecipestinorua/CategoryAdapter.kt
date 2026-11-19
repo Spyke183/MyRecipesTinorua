@@ -8,6 +8,8 @@ import com.example.myrecipestinorua.databinding.CategoryItemBinding
 
 class CategoryAdapter(private val categories: ArrayList<Category>) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
+    private var onCategoryItemClickedListener: OnCategoryItemClickedListener? = null
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -24,10 +26,17 @@ class CategoryAdapter(private val categories: ArrayList<Category>) : RecyclerVie
 
     override fun getItemCount(): Int = categories.size
 
-    class CategoryViewHolder(private val binding: CategoryItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class CategoryViewHolder(private val binding: CategoryItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(category: Category) {
             binding.category = category
+            binding.categoryItemCl.setOnClickListener {
+                onCategoryItemClickedListener?.onCategoryItemClicked(category)
+            }
             binding.executePendingBindings()
         }
+    }
+
+    fun setCategoryItemClickedListener(listener: OnCategoryItemClickedListener) {
+        this.onCategoryItemClickedListener = listener
     }
 }
